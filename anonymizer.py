@@ -7,14 +7,14 @@ run basic_mondrian with given parameters
 from mondrian import mondrian
 from utils.read_adult_data import read_data as read_adult
 from utils.read_adult_data import read_tree as read_adult_tree
+from utils.read_health_data import read_data as read_health
+from utils.read_health_data import read_tree as read_health_tree
 from utils.read_informs_data import read_data as read_informs
 from utils.read_informs_data import read_tree as read_informs_tree
 import sys, copy, random
 
-DATA_SELECT = 'a'
+DATA_SELECT = 't'
 DEFAULT_K = 10
-# sys.setrecursionlimit(50000)
-
 
 def extend_result(val):
     """
@@ -69,7 +69,7 @@ def get_result_k(att_trees, data):
 def get_result_dataset(att_trees, data, k=DEFAULT_K, n=10):
     """
     fix k and QI, while changing size of dataset
-    n is the proportion nubmber.
+    n is the proportion number.
     """
     data_back = copy.deepcopy(data)
     length = len(data_back)
@@ -107,7 +107,7 @@ def get_result_dataset(att_trees, data, k=DEFAULT_K, n=10):
 
 def get_result_qi(att_trees, data, k=DEFAULT_K):
     """
-    change nubmber of QI, whle fixing k and size of dataset
+    change number of QI, while fixing k and size of dataset
     """
     data_back = copy.deepcopy(data)
     ls = len(data[0])
@@ -138,14 +138,22 @@ if __name__ == '__main__':
     if DATA_SELECT == 'i':
         RAW_DATA = read_informs()
         ATT_TREES = read_informs_tree()
-    else:
+    elif DATA_SELECT == 'a':
         RAW_DATA = read_adult()
         ATT_TREES = read_adult_tree()
+    elif DATA_SELECT == 'h':
+        RAW_DATA = read_health()
+        ATT_TREES = read_health_tree()
+    else:
+        RAW_DATA = read_health()
+        ATT_TREES = read_health_tree()
     print '#' * 30
     if DATA_SELECT == 'a':
         print "Adult data"
-    else:
+    elif DATA_SELECT == 'i':
         print "INFORMS data"
+    else:
+        print "HEALTH data"
     print '#' * 30
     if FLAG == 'k':
         get_result_k(ATT_TREES, RAW_DATA)
