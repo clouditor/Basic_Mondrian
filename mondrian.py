@@ -79,10 +79,10 @@ def choose_dimension(partition):
             max_width = normWidth
             max_dim = i
     if max_width > 1:
-        print "Error: max_width > 1"
+        print("Error: max_width > 1")
         pdb.set_trace()
     if max_dim == -1:
-        print "cannot find the max dim"
+        print("cannot find the max dim")
         pdb.set_trace()
     return max_dim
 
@@ -109,7 +109,7 @@ def find_median(partition, dim):
     frequency = frequency_set(partition, dim)
     splitVal = ''
     value_list = frequency.keys()
-    value_list.sort(cmp=cmp_str)
+    value_list = sorted(value_list, key=int)
     total = sum(frequency.values())
     middle = total / 2
     if middle < GL_K or len(value_list) <= 1:
@@ -123,7 +123,7 @@ def find_median(partition, dim):
             split_index = i
             break
     else:
-        print "Error: cannot find splitVal"
+        print("Error: cannot find splitVal")
     try:
         nextVal = value_list[split_index + 1]
     except IndexError:
@@ -220,7 +220,7 @@ def split_categorical(partition, dim, pwidth, pmiddle):
             except KeyError:
                 continue
         else:
-            print "Generalization hierarchy error!"
+            print("Generalization hierarchy error!")
     flag = True
     for index, sub_group in enumerate(sub_groups):
         if len(sub_group) == 0:
@@ -266,7 +266,7 @@ def anonymize(partition):
     # Choose dim
     dim = choose_dimension(partition)
     if dim == -1:
-        print "Error: dim=-1"
+        print("Error: dim=-1")
         pdb.set_trace()
     sub_partitions = split_partition(partition, dim)
     if len(sub_partitions) == 0:
@@ -347,13 +347,13 @@ def mondrian(att_trees, data, k, QI_num=-1):
     ncp /= len(data)
     ncp *= 100
     if len(result) != len(data):
-        print "Losing records during anonymization!!"
+        print("Losing records during anonymization!!")
         pdb.set_trace()
     if __DEBUG:
-        print "K=%d" % k
-        print "size of partitions"
-        print len(RESULT)
+        print("K=%d" % k)
+        print("size of partitions")
+        print(len(RESULT))
         temp = [len(t) for t in RESULT]
-        print sorted(temp)
-        print "NCP = %.2f %%" % ncp
+        print(sorted(temp))
+        print("NCP = %.2f %%" % ncp)
     return (result, (ncp, rtime))

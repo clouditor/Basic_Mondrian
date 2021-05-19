@@ -53,7 +53,7 @@ def read_data():
         if IS_CAT[i] is False:
             static_file = open('data/health_' + ATT_NAMES[QI_INDEX[i]] + '_static.pickle', 'wb')
             sort_value = list(numeric_dict[i].keys())
-            sort_value.sort(cmp=cmp_str)
+            sort_value = sorted(sort_value, key=int)
             pickle.dump((numeric_dict[i], sort_value), static_file)
             static_file.close()
     return data
@@ -83,7 +83,7 @@ def read_pickle_file(att_name):
         static_file = open('data/health_' + att_name + '_static.pickle', 'rb')
         (numeric_dict, sort_value) = pickle.load(static_file)
     except:
-        print "Pickle file not exists!!"
+        print("Pickle file not exists!!")
     static_file.close()
     result = NumRange(sort_value, numeric_dict)
     return result
@@ -99,7 +99,7 @@ def read_tree_file(treename):
     treefile = open(prefix + treename + postfix, 'rU')
     att_tree['*'] = GenTree('*')
     if __DEBUG:
-        print "Reading Tree" + treename
+        print("Reading Tree" + treename)
     for line in treefile:
         # delete \n
         if len(line) <= 1:
@@ -118,6 +118,6 @@ def read_tree_file(treename):
             except:
                 att_tree[t] = GenTree(t, att_tree[temp[i - 1]], isleaf)
     if __DEBUG:
-        print "Nodes No. = %d" % att_tree['*'].support
+        print("Nodes No. = %d" % att_tree['*'].support)
     treefile.close()
     return att_tree
