@@ -1,0 +1,10 @@
+addiction;*
+adhd;*
+anxiety;*
+cancer;*
+dementia;*
+depression;*
+mania;*
+neurological_disorder;*
+voice_disorder;*
+liver_disorder;*

@@ -8,9 +8,9 @@ main module of basic Mondrian
 
 import pdb
 import random
-from models.numrange import NumRange
-from models.gentree import GenTree
-from utils.utility import cmp_str
+from basic_mondrian_health.models.numrange import NumRange
+from basic_mondrian_health.models.gentree import GenTree
+from basic_mondrian_health.utils.utility import cmp_str
 import time
 
 

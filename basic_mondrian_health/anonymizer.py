@@ -4,17 +4,17 @@ run basic_mondrian with given parameters
 
 # !/usr/bin/env python
 # coding=utf-8
-from mondrian import mondrian
-from utils.read_adult_data import read_data as read_adult
-from utils.read_adult_data import read_tree as read_adult_tree
-from utils.read_health_data import read_data as read_health
-from utils.read_health_data import read_tree as read_health_tree
-from utils.read_informs_data import read_data as read_informs
-from utils.read_informs_data import read_tree as read_informs_tree
-import sys, copy, random
+from basic_mondrian_health.mondrian import mondrian
+from basic_mondrian_health.utils.read_adult_data import read_data as read_adult
+from basic_mondrian_health.utils.read_adult_data import read_tree as read_adult_tree
+from basic_mondrian_health.utils.read_health_data import read_data as read_health
+from basic_mondrian_health.utils.read_health_data import read_tree as read_health_tree
+from basic_mondrian_health.utils.read_informs_data import read_data as read_informs
+from basic_mondrian_health.utils.read_informs_data import read_tree as read_informs_tree
+import sys, copy, random, importlib
 
 DATA_SELECT = 't'
-DEFAULT_K = 10
+DEFAULT_K = 2
 
 def extend_result(val):
     """
@@ -29,7 +29,8 @@ def write_to_file(result):
     """
     write the anonymized result to anonymized.data
     """
-    with open("data/anonymized.data", "w") as output:
+    with importlib.resources.path('basic_mondrian_health.data', 'anonymized.data') as path:
+        output = open(path, 'w')
         for r in result:
             output.write(';'.join(map(extend_result, r)) + '\n')
 
@@ -126,6 +127,12 @@ def get_result_qi(att_trees, data, k=DEFAULT_K):
     print("All Running time", all_rtime)
 
 
+def anonymize_health_data():
+    k = 5
+    RAW_DATA = read_health()
+    ATT_TREES = read_health_tree()
+    get_result_one(ATT_TREES, RAW_DATA)
+
 if __name__ == '__main__':
     FLAG = ''
     LEN_ARGV = len(sys.argv)
@@ -134,7 +141,7 @@ if __name__ == '__main__':
         FLAG = sys.argv[2]
     except:
         pass
-    k = 10
+    k = 1
     if DATA_SELECT == 'i':
         RAW_DATA = read_informs()
         ATT_TREES = read_informs_tree()
@@ -175,4 +182,4 @@ if __name__ == '__main__':
         print("K: varying k, qi: varying qi numbers, data: varying size of dataset, \
                 one: run only once")
     # anonymized dataset is stored in result
-    print("Finish Basic_Mondrian!!")
+    print("Finished Basic_Mondrian!!")

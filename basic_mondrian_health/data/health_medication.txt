@@ -1,0 +1,10 @@
+immunomodulating;*
+blood;*
+cardiovascular;*
+dental;*
+dermatologic;*
+gastrointestinal;*
+muscoleskeletal;*
+nervous;*
+respiratory;*
+hormonal;*

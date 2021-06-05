@@ -1,3 +1,0 @@
-male;person;*
-female;person;*
-other;person;*
