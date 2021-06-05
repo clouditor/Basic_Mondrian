@@ -30,38 +30,38 @@ def read_data():
     # here, we use the appear number
     # data_file = open('data/health.data', 'rU')
     with importlib.resources.path('basic_mondrian_health.data', 'health.data') as path:
-        with open(path, 'rU') as data_file:
-            for line in data_file:
-                line = line.strip()
-                # remove empty and incomplete lines
-                # only 30162 records will be kept
-                if len(line) == 0 or '?' in line:
-                    continue
-                # remove double spaces
-                line = line.replace(' ', '')
-                temp = line.split(',')
-                ltemp = []
-                for i in range(QI_num):
-                    index = QI_INDEX[i]
-                    if IS_CAT[i] is False:
-                        try:
-                            numeric_dict[i][temp[index]] += 1
-                        except KeyError:
-                            numeric_dict[i][temp[index]] = 1
-                    ltemp.append(temp[index])
-                # ltemp.append(temp[SA_INDEX])
-                data.append(ltemp)
-            # pickle numeric attributes and get NumRange
+        data_file = open(path, 'rU')
+        for line in data_file:
+            line = line.strip()
+            # remove empty and incomplete lines
+            # only 30162 records will be kept
+            if len(line) == 0 or '?' in line:
+                continue
+            # remove double spaces
+            line = line.replace(' ', '')
+            temp = line.split(',')
+            ltemp = []
             for i in range(QI_num):
+                index = QI_INDEX[i]
                 if IS_CAT[i] is False:
-                    with importlib.resources.path('basic_mondrian_health.data', 'health_' + ATT_NAMES[QI_INDEX[i]] + '_static.pickle') as path:
-                        static_file = open(path, 'wb')
-                        # static_file = open('data/health_' + ATT_NAMES[QI_INDEX[i]] + '_static.pickle', 'wb')
-                        sort_value = list(numeric_dict[i].keys())
-                        sort_value = sorted(sort_value, key=int)
-                        pickle.dump((numeric_dict[i], sort_value), static_file)
-                        static_file.close()
-            return data
+                    try:
+                        numeric_dict[i][temp[index]] += 1
+                    except KeyError:
+                        numeric_dict[i][temp[index]] = 1
+                ltemp.append(temp[index])
+            # ltemp.append(temp[SA_INDEX])
+            data.append(ltemp)
+        # pickle numeric attributes and get NumRange
+        for i in range(QI_num):
+            if IS_CAT[i] is False:
+                with importlib.resources.path('basic_mondrian_health.data', 'health_' + ATT_NAMES[QI_INDEX[i]] + '_static.pickle') as path:
+                    static_file = open(path, 'wb')
+                    # static_file = open('data/health_' + ATT_NAMES[QI_INDEX[i]] + '_static.pickle', 'wb')
+                    sort_value = list(numeric_dict[i].keys())
+                    sort_value = sorted(sort_value, key=int)
+                    pickle.dump((numeric_dict[i], sort_value), static_file)
+                    static_file.close()
+    return data
 
 
 def read_tree():
