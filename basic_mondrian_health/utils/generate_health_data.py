@@ -48,17 +48,17 @@ def generate_one_realistic_record():
     disease_key = disease_keys[random.randint(0, len(disease_keys)-1)]
     record += disease_key + ","
     # pick one value of the defined timestamps
-    with importlib.resources.path('basic_mondrian_health.data', 'health_' + ATT_NAMES[QI_INDEX[i]] + '.txt') as path:
-                data_file = open(path, 'r')
-                values = []
-                for line in data_file:
-                    line = line.strip()
-                    if len(line) == 0 or '?' in line:
-                        continue
-                    line = line.replace(' ', '')
-                    temp = line.split(';')
-                    values.append(temp[0])
-                record += values[random.randint(0,len(values)-1)] + ","
+    path = 'data/health_' + ATT_NAMES[QI_INDEX[i]] + '.txt'
+    data_file = open(path, 'r')
+    values = []
+    for line in data_file:
+        line = line.strip()
+        if len(line) == 0 or '?' in line:
+            continue
+        line = line.replace(' ', '')
+        temp = line.split(';')
+        values.append(temp[0])
+    record += values[random.randint(0,len(values)-1)] + ","
     # choose medication depending on the disease
     medication_list = disease_medication_mapping[disease_key]
     record += medication_list[random.randint(0, len(medication_list)-1)] + ","
@@ -94,18 +94,17 @@ def generate_one_record():
         if IS_CAT[i] is False:
             record += str(random.randint(0, MAX_VALUE[i])) + ","
         else:
-            # open health data in path /data depending on the attribute
-            path = 'data/health_' + ATT_NAMES[QI_INDEX[i]] + '.txt'
-            data_file = open(path, 'r')
-            values = []
-            for line in data_file:
-                line = line.strip()
-                if len(line) == 0 or '?' in line:
-                    continue
-                line = line.replace(' ', '')
-                temp = line.split(';')
-                values.append(temp[0])
-            record += values[random.randint(0,len(values)-1)] + ","
+            with importlib.resources.path('basic_mondrian_health.data', 'health_' + ATT_NAMES[QI_INDEX[i]] + '.txt') as path:
+                data_file = open(path, 'r')
+                values = []
+                for line in data_file:
+                    line = line.strip()
+                    if len(line) == 0 or '?' in line:
+                        continue
+                    line = line.replace(' ', '')
+                    temp = line.split(';')
+                    values.append(temp[0])
+                record += values[random.randint(0,len(values)-1)] + ","
     return record[:-1]
 
 def generate_dataset(size):
